@@ -1,3 +1,4 @@
+from email.policy import default
 from itertools import count
 from lib2to3.pgen2 import driver
 from jmespath import search
@@ -95,7 +96,9 @@ class SpiderprocuranomeSpider(scrapy.Spider):
           #  pessoas_found.append(found)
         
             yield{
-           ' item':response_obj.xpath("//*[@id='GridView1']/tbody/tr[2]/td[2]/text()").get().strip()
+                
+                'item':response_obj.xpath("//*[@id='GridView1']/tbody/tr[2]/td[2]/text()").get(default='').strip()
+                   
             }
             sleep(10)
             

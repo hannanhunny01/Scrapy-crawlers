@@ -6,8 +6,27 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+import collections
+
+import logging
+import pymongo
+
 
 
 class Spider3Pipeline:
+    collection_name = "names_found"
+    cluster =pymongo.MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
+
+
+    def open_spider(self,spider):
+
+        self.client = pymongo.MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
+        self.db =self.client["users"]
+    
+    def close_spider(self,spider):
+        self.client.close()
+        
     def process_item(self, item, spider):
+        self.db[self.collection_name].insert_one(item)
+
         return item

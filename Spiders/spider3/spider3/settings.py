@@ -26,6 +26,10 @@ DOWNLOADER_MIDDLEWARES = {
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
+ITEM_PIPELINES = {
+    'spider3.pipelines.Spider3Pipeline': 300,
+}
+
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
