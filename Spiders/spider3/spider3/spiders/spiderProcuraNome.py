@@ -56,8 +56,7 @@ class SpiderprocuranomeSpider(scrapy.Spider):
     #  with open('screenshot.png','wb') as f:
      #   f.write(img)
 
-        driver= response.meta['driver']
-        searchinput = driver.find_element("xpath",'//*[@id="txtNome"]')
+       
         count=0
         cluster = MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
 
@@ -69,6 +68,8 @@ class SpiderprocuranomeSpider(scrapy.Spider):
         arrays_of_names = np.array(array_nomes)
         
         for i in range(total_users):
+            driver= response.meta['driver']
+            searchinput = driver.find_element("xpath",'//*[@id="txtNome"]')
 
             nome = arrays_of_names[count]['nome']
 
@@ -82,10 +83,19 @@ class SpiderprocuranomeSpider(scrapy.Spider):
 
             html = driver.page_source
             count=count+1
-            searchinput.clear()
+            
+            
             response_obj = Selector(text=html)
         
             yield{
             'item':response_obj.xpath("//*[@id='GridView1']/tbody/tr[2]/td[2]/text()").get().strip()
             }
+
+            
+            driver.back()
+            
+            
+
+            
+
        
