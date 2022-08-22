@@ -1,10 +1,91 @@
+from itertools import count
+from lib2to3.pgen2 import driver
+from jmespath import search
 import scrapy
+from scrapy_selenium import SeleniumRequest
+import json
+from selenium.webdriver.common.keys import Keys
+from sqlalchemy import true
+from scrapy.selector import Selector
+import numpy as np
+from pymongo import MongoClient
+
+
 
 
 class SpiderprocuranomeSpider(scrapy.Spider):
     name = 'spiderProcuraNome'
-    allowed_domains = ['www.cebraspe.org.br']
-    start_urls = ['http://www.cebraspe.org.br/']
 
+   
+#print(arrays)
+
+#for name in nomes:
+#print(array_nomes)
+
+
+#    count=0
+#    for nome in arrays_of_names:
+    
+   
+#      y =arrays_of_names[count]['nome']
+#      count =count+1
+#      print(y)
+  
+
+   
+       
+        
+
+    def start_requests(self):
+        yield SeleniumRequest(
+            url="https://security.cebraspe.org.br/PAS_21/Consulta1Chamada2Semestre_582AECCD/default.aspx",
+            wait_time=10,
+            screenshot=true,
+            callback=self.parse
+        )
+
+        
+      
+    
     def parse(self, response):
-        pass
+
+
+        
+     #  img = response.meta['screenshot']
+
+    #  with open('screenshot.png','wb') as f:
+     #   f.write(img)
+
+        driver= response.meta['driver']
+        searchinput = driver.find_element("xpath",'//*[@id="txtNome"]')
+        count=0
+        cluster = MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
+
+        db = cluster["users"]
+        collection_users = db["users"]
+        total_users = collection_users.count_documents({})
+
+        array_nomes =  list(collection_users.find({},{'nome':1,'_id':0}))
+        arrays_of_names = np.array(array_nomes)
+        
+        for i in range(total_users):
+
+            nome = arrays_of_names[count]['nome']
+
+      #    searchinput.send_keys('Matheus Rodrigues da Silva')
+            searchinput.send_keys(nome)
+          
+            driver.find_element("xpath",'//*[@id="btnBuscar"]').click()
+        #searchinput.send_keys(Keys.ENTER)
+            driver.save_screenshot('search.png')
+
+
+            html = driver.page_source
+            count=count+1
+            searchinput.clear()
+            response_obj = Selector(text=html)
+        
+            yield{
+            'item':response_obj.xpath("//*[@id='GridView1']/tbody/tr[2]/td[2]/text()").get().strip()
+            }
+       
