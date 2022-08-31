@@ -11,12 +11,20 @@ from scrapy.selector import Selector
 import numpy as np
 from pymongo import MongoClient
 from time import sleep
-
+from selenium import webdriver
 
 
 
 class SpiderprocuranomeSpider(scrapy.Spider):
     name = 'spiderProcuraNome'
+
+
+
+
+
+
+
+ 
 
    
 #print(arrays)
@@ -65,7 +73,6 @@ class SpiderprocuranomeSpider(scrapy.Spider):
         db = cluster["users"]
         collection_users = db["users"]
         total_users = collection_users.count_documents({})
-
         array_nomes =  list(collection_users.find({},{'nome':1,'_id':0}))
         arrays_of_names = np.array(array_nomes)
         

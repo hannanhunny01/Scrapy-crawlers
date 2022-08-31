@@ -17,12 +17,10 @@ NEWSPIDER_MODULE = 'spider3.spiders'
 #USER_AGENT = 'spider3 (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy_selenium.SeleniumMiddleware': 800
-}
+
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
@@ -69,5 +67,11 @@ SPLASH_URL='http://localhost:8050'
 from shutil import which
 
 SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
+#SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
+SELENIUM_DRIVER_EXECUTABLE_PATH = r"C:\Users\hannan\Desktop\Scrapy-crawlers\Spiders\spider3\chromedriver.exe"
+
 SELENIUM_DRIVER_ARGUMENTS=['--headless']
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_selenium.SeleniumMiddleware': 800
+}
