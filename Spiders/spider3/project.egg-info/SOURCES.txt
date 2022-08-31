@@ -1,0 +1,13 @@
+setup.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
+spider3/__init__.py
+spider3/items.py
+spider3/middlewares.py
+spider3/pipelines.py
+spider3/settings.py
+spider3/spiders/__init__.py
+spider3/spiders/spiderProcuraNome.py
