@@ -70,17 +70,17 @@ class SpiderprocuranomeSpider(scrapy.Spider):
         count=0
         cluster = MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
 
-        db = cluster["users"]
+        db = cluster["mainapp"]
         collection_users = db["users"]
         total_users = collection_users.count_documents({})
-        array_nomes =  list(collection_users.find({},{'nome':1,'_id':0}))
+        array_nomes =  list(collection_users.find({},{'username':1,'_id':0}))
         arrays_of_names = np.array(array_nomes)
         
         for i in range(total_users+1):
             driver= response.meta['driver']
             searchinput = driver.find_element("xpath",'//*[@id="txtNome"]')
 
-            nome = arrays_of_names[count]['nome']
+            nome = arrays_of_names[count]['username']
             driver.find_element("xpath",'//*[@id="txtNome"]').clear()
       #    searchinput.send_keys('Matheus Rodrigues da Silva')
             searchinput.send_keys(nome)

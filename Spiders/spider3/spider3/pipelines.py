@@ -17,11 +17,15 @@ class Spider3Pipeline:
     collection_name = "names_found"
     cluster =pymongo.MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
 
+    db_user_found= cluster["mainapp"]
+    collection2= db_user_found["names_found"]
+    collection2.delete_many({})
+
 
     def open_spider(self,spider):
 
         self.client = pymongo.MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
-        self.db =self.client["users"]
+        self.db =self.client["mainapp"]
     
     def close_spider(self,spider):
         self.client.close()

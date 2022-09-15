@@ -8,8 +8,8 @@ import pymongo
 class CebraspecrawlerPipeline:
     collection_name = "links_de_Chamada"
     cluster =pymongo.MongoClient("mongodb+srv://cebraspe-tracker:cebraspe-tracker@cluster0.sa63e.mongodb.net/?retryWrites=true&w=majority")
-    db = cluster["counts"]
-    collection = db["counts_de_links"]
+    db_count = cluster["counts"]
+    collection_count = db_count["counts_de_links"]
 
 # collection para links (database)
     db2= cluster["links"]
@@ -20,7 +20,7 @@ class CebraspecrawlerPipeline:
 
     total_count = collection2.count_documents({})
     #print(total_count)
-    collection.update_one({"_id":0},{"$set":{"Count-de-Chamadas-ultimo":total_count}})
+    collection_count.update_one({"_id":0},{"$set":{"Count-de-Chamadas-ultimo":total_count}})
 
     #apagando collection atual
     collection2.delete_many({})
